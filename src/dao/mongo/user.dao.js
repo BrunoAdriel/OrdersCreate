@@ -43,6 +43,11 @@ class UserDAO{
         }
     }
 
+    async existUserWithEmail(email){
+        const result = await UserModel.countDocuments({email})
+        return result > 0
+    }
+
 }
 
 module.exports = { UserDAO }

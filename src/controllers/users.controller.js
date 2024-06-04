@@ -1,6 +1,9 @@
 const { User } = require('../dao')
+const { SaveUserResponse } = require('../dto/responses/saveUserResponse')
+const { UserService } = require('../services/user.services')
 
 const userDAO = new User()
+const service = new UserService(userDAO)
 
 module.exports = {
 
@@ -25,11 +28,11 @@ module.exports = {
 
     saveUsers: async (req,res) => {
         const userData = req.body
-        const user = await userDAO.saveUsers(userData)
+        const user = await service.createUser(userData)
         if(!user){
             return res.sendError('Somethin went wrong!')
         }
-        res.sendSuccess(user)
+        res.sendSuccess(new SaveUserResponse(user))
     }
 
 }
